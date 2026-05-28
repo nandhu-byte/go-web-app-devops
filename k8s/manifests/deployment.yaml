@@ -1,0 +1,32 @@
+# This is a sample deployment manifest file for a simple web application.
+apiVersion: apps/v1
+#api is used to communicate between 2 software components. here apps is the deployment API and v1 is the version.
+kind: Deployment
+#kind is used to specify the type of Kubernetes object we want to create. here we are creating a deployment object which is used to manage a group of replicas of a pod.
+metadata:
+#data about the resource.
+  name: go-web-app
+  #name of the deployment object. it should be unique within the namespace.
+  labels:
+    app: go-web-app
+    #Labels are key-value tags attached to resources.
+spec:
+#desired configuration/state of the Deployment.
+  replicas: 1
+  #replicas is the number of desired pods. here we want to run 1 replica of our application.
+  selector:
+    matchLabels:
+    #deployment uses a selector to identify the pods that belong to this deployment. here we are using a label selector to match the pods that have the label
+      app: go-web-app
+      #app is the key and go-web-app is the value. this label will be used to identify the pods that belong to this deployment.
+  template:
+    metadata:
+    #pod labels are used to identify the pods that belong to this deployment. here we are using the same label as the selector to ensure that the pods created by this deployment are correctly identified.
+      labels:
+        app: go-web-app
+    spec:
+      containers:
+      - name: go-web-app
+        image: nandhu0/go-web-app:v1
+        ports:
+        - containerPort: 8080
